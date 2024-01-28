@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 600px;
+  height: 100%;
+  box-sizing: border-box;
+  row-gap: 16px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  row-gap: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: scroll;
+  height: 500px;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+.list::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+.list::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.drag_container {
+  height: 80px;
+  width: 568px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submit_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 40px;
+}
+
+.sum_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+}

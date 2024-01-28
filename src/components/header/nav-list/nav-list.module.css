@@ -1,0 +1,11 @@
+.nav_list {
+  padding: 0;
+  list-style: none;
+  width: 1280px;
+  min-height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
