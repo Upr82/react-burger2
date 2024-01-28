@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'IBMPlexSans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./IBMPlexSans-Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'IBMPlexSans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./IBMPlexSans-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Iceland-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./JetBrainsMono-Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./JetBrainsMono-Regular.ttf') format('ttf');
+}

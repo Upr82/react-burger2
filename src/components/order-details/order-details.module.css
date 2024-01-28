@@ -1,0 +1,9 @@
+.order_id {
+  text-shadow: #4c4cff 1px 1px 15px;
+}
+
+.img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
