@@ -8,7 +8,9 @@ import { ingredientPropTypes } from "../../../utils/prop-shapes";
 import PropTypes from 'prop-types';
 
 function Ingredient({
-  data, setVisibleModal, setPortalType, setCurrIngredient,
+  data,
+  openModal,
+  setPortalType, setCurrIngredient,
   currIngredient
 }) {
 
@@ -18,7 +20,7 @@ function Ingredient({
       ...data
     });
     setPortalType('IngredientDetails')
-    setVisibleModal(true);
+    openModal();
   }
 
   return (
@@ -33,7 +35,7 @@ function Ingredient({
 
 Ingredient.propTypes = {
   data: ingredientPropTypes.isRequired,
-  setVisibleModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
   currIngredient: ingredientPropTypes.isRequired,

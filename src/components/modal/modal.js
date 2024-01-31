@@ -3,15 +3,12 @@ import styles from './modal.module.css';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
+import PropTypes from 'prop-types';
 
 
 function Modal({ children, onClose }) {
 
   const portalDiv = document.getElementById("modal");
-
-  const closeHandler = () => {
-    onClose();
-  }
 
   function closeByEsc(e) {
     if(e.key === "Escape") {
@@ -25,11 +22,11 @@ function Modal({ children, onClose }) {
   }, []);
 
   return createPortal((
-    <ModalOverlay handleCloseModal={closeHandler}>
+    <ModalOverlay handleCloseModal={onClose}>
       <div className={`${styles.container} pt-10 pr-10 pl-10 pb-15`} id="modal-container">
         <button
           className={`${styles.button}`}
-          onClick={closeHandler}
+          onClick={onClose}
         >
           <CloseIcon type="primary" />
         </button>
@@ -38,6 +35,11 @@ function Modal({ children, onClose }) {
     </ModalOverlay>
   ), portalDiv
   );
+}
+
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 export default Modal;

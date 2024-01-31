@@ -6,6 +6,7 @@ import { TEST_BUN, TEST_FILLINGS, ORDER_ID } from '../../utils/data';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import { useModal } from '../../hooks/use-modal';
 
 
 function App() {
@@ -24,40 +25,35 @@ function App() {
     "image_large": "",
     "__v": 0
   });
-  const [visibleModal, setVisibleModal] = useState(false);
+
   const [portalType, setPortalType] = useState('');
 
-  const resetCurrIngredient = () => {
-    setCurrIngredient({
-      ...currIngredient,
-      "_id": "",
-      "name": "",
-      "type": "",
-      "proteins": 0,
-      "fat": 0,
-      "carbohydrates": 0,
-      "calories": 0,
-      "price": 0,
-      "image": "",
-      "image_mobile": "",
-      "image_large": "",
-      "__v": 0
-    });
-  }
+  const { visibleModal, openModal, closeModal } = useModal();
 
-  const closeModal = () => {
-    setVisibleModal(false);
-    if (portalType === 'IngredientDetails') {
-      resetCurrIngredient();
-    }
-  }
+  // const resetCurrIngredient = () => {
+  //   setCurrIngredient({
+  //     ...currIngredient,
+  //     "_id": "",
+  //     "name": "",
+  //     "type": "",
+  //     "proteins": 0,
+  //     "fat": 0,
+  //     "carbohydrates": 0,
+  //     "calories": 0,
+  //     "price": 0,
+  //     "image": "",
+  //     "image_mobile": "",
+  //     "image_large": "",
+  //     "__v": 0
+  //   });
+  // }
 
   useEffect(() => {
     getIngredients()
       .then(data => {
         setIngredients(data.data);
       })
-      .catch(error => console.log(error));
+      .catch(console.error);
   }, []);
 
   return (
@@ -67,7 +63,7 @@ function App() {
         ingredients={ingredients}
         currBun={TEST_BUN}
         currFillings={TEST_FILLINGS}
-        setVisibleModal={setVisibleModal}
+        openModal={openModal}
         setPortalType={setPortalType}
         currIngredient={currIngredient}
         setCurrIngredient={setCurrIngredient}
