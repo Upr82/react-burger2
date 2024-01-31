@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
 
 function BurgerIngredients({
-  data, setVisibleModal, setPortalType, setCurrIngredient,
+  data,
+  openModal,
+  setPortalType, setCurrIngredient,
   currIngredient
 }) {
 
@@ -18,7 +20,7 @@ function BurgerIngredients({
       <IngredientsMenu />
       <IngredientsContainer
         data={data}
-        setVisibleModal={setVisibleModal}
+        openModal={openModal}
         setPortalType={setPortalType}
         currIngredient={currIngredient}
         setCurrIngredient={setCurrIngredient}
@@ -29,7 +31,7 @@ function BurgerIngredients({
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  setVisibleModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
   currIngredient: ingredientPropTypes,

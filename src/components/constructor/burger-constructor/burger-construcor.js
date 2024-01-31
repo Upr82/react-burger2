@@ -8,7 +8,8 @@ import { ingredientPropTypes } from '../../../utils/prop-shapes';
 
 
 function BurgerConstructor({
-  currBun, currFillings, setPortalType, setVisibleModal
+  currBun, currFillings, setPortalType,
+  openModal
 }) {
   const sum = currFillings.reduce((acc, ingredient) => {
     return acc + ingredient.price;
@@ -16,11 +17,8 @@ function BurgerConstructor({
 
   const handleClick = (e) => {
     setPortalType('OrderDetails');
-    setVisibleModal(true);
+    openModal();
   }
-
-  useEffect(() => {
-  }, [currBun, currFillings]);
 
   return (
     <div className={`${styles.container} pt-25`}>
@@ -89,7 +87,7 @@ BurgerConstructor.propTypes = {
   currBun: ingredientPropTypes,
   currFillings: PropTypes.arrayOf(ingredientPropTypes),
   setPortalType: PropTypes.func.isRequired,
-  setVisibleModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

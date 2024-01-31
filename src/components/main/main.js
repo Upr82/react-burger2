@@ -7,7 +7,8 @@ import { ingredientPropTypes } from "../../utils/prop-shapes";
 
 function Main({
   ingredients, currBun, currFillings,
-  setVisibleModal, setPortalType, setCurrIngredient,
+  openModal,
+  setPortalType, setCurrIngredient,
   currIngredient
 }) {
   return (
@@ -16,7 +17,7 @@ function Main({
         <>
           <BurgerIngredients
             data={ingredients}
-            setVisibleModal={setVisibleModal}
+            openModal={openModal}
             setPortalType={setPortalType}
             currIngredient={currIngredient}
             setCurrIngredient={setCurrIngredient}
@@ -24,7 +25,7 @@ function Main({
           <BurgerConstructor
             currBun={currBun}
             currFillings={currFillings}
-            setVisibleModal={setVisibleModal}
+            openModal={openModal}
             setPortalType={setPortalType}
           />
         </>
@@ -38,7 +39,7 @@ Main.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   currBun: ingredientPropTypes,
   currFillings: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  setVisibleModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
   currIngredient: ingredientPropTypes

@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
 
 function IngredientsContainer({
-  data, setVisibleModal, setPortalType, setCurrIngredient,
+  data,
+  openModal,
+  setPortalType, setCurrIngredient,
   currIngredient
 }) {
 
@@ -23,7 +25,7 @@ function IngredientsContainer({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    setVisibleModal={setVisibleModal}
+                    openModal={openModal}
                     setPortalType={setPortalType}
                     currIngredient={currIngredient}
                     setCurrIngredient={setCurrIngredient}
@@ -46,7 +48,7 @@ function IngredientsContainer({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    setVisibleModal={setVisibleModal}
+                    openModal={openModal}
                     setPortalType={setPortalType}
                     currIngredient={currIngredient}
                     setCurrIngredient={setCurrIngredient}
@@ -69,7 +71,7 @@ function IngredientsContainer({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    setVisibleModal={setVisibleModal}
+                    openModal={openModal}
                     setPortalType={setPortalType}
                     currIngredient={currIngredient}
                     setCurrIngredient={setCurrIngredient}
@@ -86,7 +88,7 @@ function IngredientsContainer({
 
 IngredientsContainer.propTypes = {
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  setVisibleModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
   currIngredient: ingredientPropTypes.isRequired,
