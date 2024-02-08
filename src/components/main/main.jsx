@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./main.module.css";
 import BurgerConstructor from "../constructor/burger-constructor/burger-construcor";
 import BurgerIngredients from "../ingredients/burger-ingredients/burger-ingredients";
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../utils/prop-shapes";
+import { BurgerContext } from "../../services/burger-context";
 
 function Main({
-  ingredients,
   openModal,
   setPortalType, setCurrIngredient,
   currIngredient,
   setOrderNumber
 }) {
+
+  const ingredients = useContext(BurgerContext);
+
   return (
     <main className={`${styles.main}`}>
       {ingredients.length &&
@@ -36,11 +39,10 @@ function Main({
 }
 
 Main.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
-  currIngredient: ingredientPropTypes,
+  currIngredient: ingredientPropTypes.isRequired,
   setOrderNumber: PropTypes.func.isRequired
 };
 

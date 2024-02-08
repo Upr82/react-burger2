@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./ingredients-menu.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 

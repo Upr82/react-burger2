@@ -4,7 +4,7 @@ import {
   Button, ConstructorElement, CurrencyIcon, DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { BurgerContext } from '../../../contexts/burger-context';
+import { BurgerContext } from '../../../services/burger-context';
 import { postCreateOrder } from '../../../utils/api';
 
 
@@ -36,7 +36,7 @@ function BurgerConstructor({
   }, currBun.price*2);
 
   const handleClick = (e) => {
-    postCreateOrder([currBun._id, currBun._id, ...currFillings.map(item => item._id)])
+    postCreateOrder([currBun._id,  ...currFillings.map(item => item._id), currBun._id])
       .then(data => setOrderNumber(data.order.number))
       .catch(console.error);
     setPortalType('OrderDetails');

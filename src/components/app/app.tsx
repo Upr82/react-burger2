@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import AppHeader from '../header/app-header/app-header';
 import Main from '../main/main';
 import { getIngredients } from '../../utils/api';
-// import { ORDER_ID } from '../../utils/data';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import { useModal } from '../../hooks/use-modal';
-import { BurgerContext } from '../../contexts/burger-context';
+import { BurgerContext } from '../../services/burger-context';
 
 
 function App() {
@@ -32,24 +31,6 @@ function App() {
 
   const { visibleModal, openModal, closeModal } = useModal();
 
-  // const resetCurrIngredient = () => {
-  //   setCurrIngredient({
-  //     ...currIngredient,
-  //     "_id": "",
-  //     "name": "",
-  //     "type": "",
-  //     "proteins": 0,
-  //     "fat": 0,
-  //     "carbohydrates": 0,
-  //     "calories": 0,
-  //     "price": 0,
-  //     "image": "",
-  //     "image_mobile": "",
-  //     "image_large": "",
-  //     "__v": 0
-  //   });
-  // }
-
   useEffect(() => {
     getIngredients()
       .then(data => {
@@ -63,7 +44,6 @@ function App() {
       <BurgerContext.Provider value={ingredients}>
         <AppHeader />
         <Main
-          ingredients={ingredients}
           openModal={openModal}
           setPortalType={setPortalType}
           currIngredient={currIngredient}
