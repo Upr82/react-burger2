@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import AppHeader from '../header/app-header/app-header';
 import Main from '../main/main';
 import { getIngredients } from '../../utils/api';
-import { TEST_BUN, TEST_FILLINGS, ORDER_ID } from '../../utils/data';
+// import { ORDER_ID } from '../../utils/data';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import { useModal } from '../../hooks/use-modal';
+import { BurgerContext } from '../../contexts/burger-context';
 
 
 function App() {
+  const [orderNumber, setOrderNumber] = useState(0);
   const [ingredients, setIngredients] = useState([]);
   const [currIngredient, setCurrIngredient] = useState({
     "_id": "",
@@ -58,28 +60,29 @@ function App() {
 
   return (
     <div className="page">
-      <AppHeader />
-      <Main
-        ingredients={ingredients}
-        currBun={TEST_BUN}
-        currFillings={TEST_FILLINGS}
-        openModal={openModal}
-        setPortalType={setPortalType}
-        currIngredient={currIngredient}
-        setCurrIngredient={setCurrIngredient}
-      />
-      {visibleModal && (portalType === 'OrderDetails') &&
+      <BurgerContext.Provider value={ingredients}>
+        <AppHeader />
+        <Main
+          ingredients={ingredients}
+          openModal={openModal}
+          setPortalType={setPortalType}
+          currIngredient={currIngredient}
+          setCurrIngredient={setCurrIngredient}
+          setOrderNumber={setOrderNumber}
+        />
+        {visibleModal && (portalType === 'OrderDetails') &&
 
-        <Modal onClose={closeModal}>
-          <OrderDetails order={ORDER_ID} />
-        </Modal>
-      }
-      {visibleModal && (portalType === 'IngredientDetails') &&
-        currIngredient._id &&
-        <Modal onClose={closeModal}>
-          <IngredientDetails ingredient={currIngredient} />
-        </Modal>
-      }
+          <Modal onClose={closeModal}>
+            <OrderDetails orderNumber={orderNumber} />
+          </Modal>
+        }
+        {visibleModal && (portalType === 'IngredientDetails') &&
+          currIngredient._id &&
+          <Modal onClose={closeModal}>
+            <IngredientDetails ingredient={currIngredient} />
+          </Modal>
+        }
+      </BurgerContext.Provider>
     </div>
   );
 }

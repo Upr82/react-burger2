@@ -13,3 +13,16 @@ export const getIngredients = () => {
   })
   .then(checkResponse);
 }
+
+export const postCreateOrder = (ingredients) => {
+  return fetch(`${INGREDIENTS_URL}/orders`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      ingredients: ingredients,
+    }),
+  })
+  .then(checkResponse);
+}

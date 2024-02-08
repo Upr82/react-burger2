@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../utils/prop-shapes";
 
 function Main({
-  ingredients, currBun, currFillings,
+  ingredients,
   openModal,
   setPortalType, setCurrIngredient,
-  currIngredient
+  currIngredient,
+  setOrderNumber
 }) {
   return (
     <main className={`${styles.main}`}>
@@ -23,10 +24,9 @@ function Main({
             setCurrIngredient={setCurrIngredient}
           />
           <BurgerConstructor
-            currBun={currBun}
-            currFillings={currFillings}
             openModal={openModal}
             setPortalType={setPortalType}
+            setOrderNumber={setOrderNumber}
           />
         </>
       }
@@ -37,12 +37,11 @@ function Main({
 
 Main.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  currBun: ingredientPropTypes,
-  currFillings: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
   setCurrIngredient: PropTypes.func.isRequired,
-  currIngredient: ingredientPropTypes
+  currIngredient: ingredientPropTypes,
+  setOrderNumber: PropTypes.func.isRequired
 };
 
 export default Main;
