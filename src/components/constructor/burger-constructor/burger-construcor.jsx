@@ -1,21 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import styles from "./burger-constructor.module.css";
 import {
   Button, ConstructorElement, CurrencyIcon, DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../../utils/prop-shapes';
+import { BurgerContext } from '../../../services/burger-context';
+import { postCreateOrder } from '../../../utils/api';
 
 
 function BurgerConstructor({
-  currBun, currFillings, setPortalType,
-  openModal
+  setPortalType,
+  openModal,
+  setOrderNumber
 }) {
+
+  const allIngredients = useContext(BurgerContext);
+  const currBun = allIngredients.find(
+    ingredient => ingredient.type === 'bun'
+  );
+
+  const currFillings = allIngredients.filter(
+    (ingredient, index) => {
+      if (
+        ingredient.type !== 'bun' &&
+        index < Math.floor(Math.random() * allIngredients.length)
+      ) {
+        return ingredient;
+      }
+    }
+  );
+
+
   const sum = currFillings.reduce((acc, ingredient) => {
     return acc + ingredient.price;
   }, currBun.price*2);
 
   const handleClick = (e) => {
+    postCreateOrder([currBun._id,  ...currFillings.map(item => item._id), currBun._id])
+      .then(data => setOrderNumber(data.order.number))
+      .catch(console.error);
     setPortalType('OrderDetails');
     openModal();
   }
@@ -84,10 +107,9 @@ function BurgerConstructor({
 }
 
 BurgerConstructor.propTypes = {
-  currBun: ingredientPropTypes,
-  currFillings: PropTypes.arrayOf(ingredientPropTypes),
   setPortalType: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired,
+  setOrderNumber: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;
