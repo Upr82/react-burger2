@@ -1,25 +1,24 @@
 import React from "react";
 import styles from "./ingredients-menu.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BUN, SAUCE, MAIN } from "../../../utils/data";
 
-function IgredientsMenu() {
-  const [current, setCurrent] = React.useState('bun');
+function IgredientsMenu({nearTitle}) {
 
   const scroll = (anch) => {
-    setCurrent(anch);
     document.getElementById(anch).scrollIntoView({ behavior: "smooth" });
   }
 
   return (
     <>
       <nav className={`${styles.list} mb-10`}>
-        <Tab value="bun" active={current === 'bun'} onClick={() => scroll('bun')}>
+        <Tab value="bun" active={nearTitle === BUN} onClick={() => scroll(BUN)}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={() => scroll('sauce')}>
+        <Tab value="sauce" active={nearTitle === SAUCE} onClick={() => scroll(SAUCE)}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === 'main'} onClick={() => scroll('main')}>
+        <Tab value="main" active={nearTitle === MAIN} onClick={() => scroll(MAIN)}>
           Начинки
         </Tab>
       </nav>

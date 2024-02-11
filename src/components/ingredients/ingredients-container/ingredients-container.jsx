@@ -4,16 +4,16 @@ import Ingredient from "../ingredient/ingredient";
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
 
+
 function IngredientsContainer({
   data,
   openModal,
-  setPortalType, setCurrIngredient,
-  currIngredient
+  setPortalType,
 }) {
 
 
   return (
-    <div className={`${styles.container} `}>
+    <>
       <h3
         className={`mt-10 mb-6 text text_type_main-medium`}
         id="bun"
@@ -27,8 +27,6 @@ function IngredientsContainer({
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -50,8 +48,6 @@ function IngredientsContainer({
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -73,8 +69,6 @@ function IngredientsContainer({
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -82,7 +76,7 @@ function IngredientsContainer({
             return null;
           })}
       </ul>
-    </div>
+    </>
   );
 }
 
@@ -90,8 +84,6 @@ IngredientsContainer.propTypes = {
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
-  setCurrIngredient: PropTypes.func.isRequired,
-  currIngredient: ingredientPropTypes.isRequired,
 }
 
 export default IngredientsContainer;

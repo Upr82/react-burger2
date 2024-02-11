@@ -6,6 +6,8 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
+  border: 1px solid transparent;
+  box-sizing: border-box;
 }
 
 .name {
