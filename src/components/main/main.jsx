@@ -12,7 +12,7 @@ function Main({
   setPortalType,
 }) {
 
-  const { ingredients } = useSelector(store => store.ingredients);
+  const ingredients = useSelector(store => store.ingredients.ingredients);
 
   return (
     <main className={`${styles.main}`}>

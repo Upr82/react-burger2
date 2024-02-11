@@ -2,11 +2,28 @@ import React from "react";
 import styles from "./ingredients-menu.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
+import PropTypes from 'prop-types';
 
-function IgredientsMenu({nearTitle}) {
+
+const IgredientsMenu = React.forwardRef(({nearTitle}, ref) => {
+
+  const { bunRef, sauceRef, mainRef } = ref;
 
   const scroll = (anch) => {
-    document.getElementById(anch).scrollIntoView({ behavior: "smooth" });
+    switch (anch) {
+      case BUN: {
+        return bunRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+      case SAUCE: {
+        return sauceRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+      case MAIN: {
+        return mainRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+      default: {
+        return;
+      }
+    }
   }
 
   return (
@@ -24,6 +41,10 @@ function IgredientsMenu({nearTitle}) {
       </nav>
     </>
   );
+})
+
+IgredientsMenu.propTypes = {
+  nearTitle: PropTypes.string.isRequired,
 }
 
 export default IgredientsMenu;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./burger-ingredients.module.css";
 import IngredientsMenu from "../ingredients-menu/ingredients-menu";
 import IngredientsContainer from "../ingredients-container/ingredients-container";
@@ -13,33 +13,32 @@ function BurgerIngredients({
 }) {
   const [nearTitle, setNearTitle] = useState(BUN);
 
-  const containerElement = document.getElementById('scrollContainer');
-  const bunElement = document.getElementById(BUN);
-  const sauceElement = document.getElementById(SAUCE);
-  const mainElement = document.getElementById(MAIN);
+  const containerElement = useRef();
+  const bunElement = useRef();
+  const sauceElement = useRef();
+  const mainElement = useRef();
+
+  const titleRefs = {
+    bunRef: bunElement,
+    sauceRef: sauceElement,
+    mainRef: mainElement,
+  }
 
   const handleScrolling = (e) => {
-    const scrollContainer = e.target.scrollTop + containerElement.offsetTop;
-    if (scrollContainer < sauceElement.offsetTop) {
+    const scrollContainer = e.target.scrollTop + containerElement.current.offsetTop;
+    if (scrollContainer < sauceElement.current.offsetTop) {
       if (
-        Math.abs(scrollContainer-bunElement.offsetTop) <
-        Math.abs(scrollContainer-sauceElement.offsetTop)
-      ) {
-        setNearTitle(BUN)
-      } else {
-        setNearTitle(SAUCE);
-      }
+        Math.abs(scrollContainer - bunElement.current.offsetTop) <
+        Math.abs(scrollContainer - sauceElement.current.offsetTop)
+      ) return setNearTitle(BUN);
+      return setNearTitle(SAUCE);
     } else {
       if (
-        Math.abs(scrollContainer-sauceElement.offsetTop) <
-        Math.abs(scrollContainer-mainElement.offsetTop)
-      ) {
-        setNearTitle(SAUCE);
-      } else {
-        setNearTitle(MAIN);
-      }
+        Math.abs(scrollContainer - sauceElement.current.offsetTop) <
+        Math.abs(scrollContainer - mainElement.current.offsetTop)
+      ) return setNearTitle(SAUCE);
+      return setNearTitle(MAIN);
     }
-
   }
 
   return (
@@ -47,15 +46,17 @@ function BurgerIngredients({
       <h2 className={`${styles.title} mt-10 mb-5 text text_type_main-large`}>
         Соберите бургер
       </h2>
-      <IngredientsMenu nearTitle={nearTitle}/>
+      <IngredientsMenu nearTitle={nearTitle} ref={titleRefs}/>
       <div
         className={`${styles.sub_container}`}
         onScroll={handleScrolling}
-      id="scrollContainer">
+        ref={containerElement}
+      >
         <IngredientsContainer
           data={data}
           openModal={openModal}
           setPortalType={setPortalType}
+          ref={titleRefs}
         />
       </div>
     </div>
