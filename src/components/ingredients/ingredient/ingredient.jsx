@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "./ingredient.module.css"
 import {
   Counter
@@ -31,7 +31,10 @@ function Ingredient({
   const dispatch = useDispatch();
 
   const burgerContent = useSelector(store => store.currBurger.content);
-  const count = burgerContent.length ? burgerContent.filter(item => item._id === data._id).length : 0;
+
+  const count = useMemo(() =>
+    burgerContent.filter(item => item._id === data._id).length
+  ,[burgerContent, data._id]);
 
   const handleClick = () => {
     dispatch({

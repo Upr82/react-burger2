@@ -69,7 +69,7 @@ function BurgerConstructor({
       </div>
 
       <ul className={`${styles.list}`}>
-        {allIngredients.length !== 0 &&
+        {
           allIngredients.map((ingredient, index) => {
             if (ingredient.type !== BUN) {
               return (

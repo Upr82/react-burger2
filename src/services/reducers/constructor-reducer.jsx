@@ -18,7 +18,8 @@ export const constructorReducer = (state = initialState, actions) => {
           ...state,
           content: [actions.ingredient,...state.content, actions.ingredient]
         }
-      } else if (
+      }
+      if (
         actions.ingredient.type === BUN &&
         (state.content.length > 1 && state.content[0].type === BUN)
       ) {
@@ -33,7 +34,8 @@ export const constructorReducer = (state = initialState, actions) => {
             }),
           ]
         }
-      } else if (actions.ingredient.type !== BUN && state.content.length > 1) {
+      }
+      if (actions.ingredient.type !== BUN && state.content.length > 1) {
         return {
           ...state,
           content: [state.content[0], actions.ingredient, ...state.content.slice(1)]
