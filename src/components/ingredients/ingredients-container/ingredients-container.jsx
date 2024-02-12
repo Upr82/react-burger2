@@ -3,32 +3,33 @@ import styles from "./ingredients-container.module.css"
 import Ingredient from "../ingredient/ingredient";
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
+import { BUN, SAUCE, MAIN } from "../../../utils/data";
 
-function IngredientsContainer({
+
+const IngredientsContainer = React.forwardRef(({
   data,
   openModal,
-  setPortalType, setCurrIngredient,
-  currIngredient
-}) {
+  setPortalType},
+  ref
+) => {
 
+  const { bunRef, sauceRef, mainRef } = ref;
 
   return (
-    <div className={`${styles.container} `}>
+    <>
       <h3
         className={`mt-10 mb-6 text text_type_main-medium`}
-        id="bun"
+        ref={bunRef}
       >Булки</h3>
       <ul className={`${styles.list} pl-4 pr-4`}>
           {data.map(ingredient => {
-            if (ingredient.type === "bun") {
+            if (ingredient.type === BUN) {
               return (
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -39,19 +40,17 @@ function IngredientsContainer({
 
       <h3
         className={`mt-10 mb-6 text text_type_main-medium`}
-        id="sauce"
+        ref={sauceRef}
       >Соусы</h3>
       <ul className={`${styles.list} pl-4 pr-4`}>
           {data.map(ingredient => {
-            if (ingredient.type === "sauce") {
+            if (ingredient.type === SAUCE) {
               return (
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -62,19 +61,17 @@ function IngredientsContainer({
 
       <h3
         className={`mt-10 mb-6 text text_type_main-medium`}
-        id="main"
+        ref={mainRef}
       >Начинки</h3>
       <ul className={`${styles.list} pl-4 pr-4`}>
           {data.map(ingredient => {
-            if (ingredient.type === "main") {
+            if (ingredient.type === MAIN) {
               return (
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
                     openModal={openModal}
                     setPortalType={setPortalType}
-                    currIngredient={currIngredient}
-                    setCurrIngredient={setCurrIngredient}
                   />
                 </li>
               );
@@ -82,16 +79,19 @@ function IngredientsContainer({
             return null;
           })}
       </ul>
-    </div>
+    </>
   );
-}
+})
 
 IngredientsContainer.propTypes = {
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
-  setCurrIngredient: PropTypes.func.isRequired,
-  currIngredient: ingredientPropTypes.isRequired,
+  // ref: PropTypes.shape({
+  //   bunRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })],
+  //   sauceRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })],
+  //   mainRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]
+  // }).isRequired
 }
 
 export default IngredientsContainer;

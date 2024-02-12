@@ -1,39 +1,36 @@
-import React, { useContext } from "react";
+import React from "react";
 import styles from "./main.module.css";
 import BurgerConstructor from "../constructor/burger-constructor/burger-construcor";
 import BurgerIngredients from "../ingredients/burger-ingredients/burger-ingredients";
 import PropTypes from 'prop-types';
-import { ingredientPropTypes } from "../../utils/prop-shapes";
-import { BurgerContext } from "../../services/burger-context";
+import { useSelector } from "react-redux";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function Main({
   openModal,
-  setPortalType, setCurrIngredient,
-  currIngredient,
-  setOrderNumber
+  setPortalType,
 }) {
 
-  const ingredients = useContext(BurgerContext);
+  const ingredients = useSelector(store => store.ingredients.ingredients);
 
   return (
     <main className={`${styles.main}`}>
-      {ingredients.length &&
-        <>
-          <BurgerIngredients
-            data={ingredients}
-            openModal={openModal}
-            setPortalType={setPortalType}
-            currIngredient={currIngredient}
-            setCurrIngredient={setCurrIngredient}
-          />
-          <BurgerConstructor
-            openModal={openModal}
-            setPortalType={setPortalType}
-            setOrderNumber={setOrderNumber}
-          />
-        </>
-      }
-
+      <DndProvider backend={HTML5Backend}>
+        {ingredients.length &&
+          <>
+            <BurgerIngredients
+              data={ingredients}
+              openModal={openModal}
+              setPortalType={setPortalType}
+            />
+            <BurgerConstructor
+              openModal={openModal}
+              setPortalType={setPortalType}
+            />
+          </>
+        }
+      </DndProvider>
     </main>
   );
 }
@@ -41,9 +38,6 @@ function Main({
 Main.propTypes = {
   openModal: PropTypes.func.isRequired,
   setPortalType: PropTypes.func.isRequired,
-  setCurrIngredient: PropTypes.func.isRequired,
-  currIngredient: ingredientPropTypes.isRequired,
-  setOrderNumber: PropTypes.func.isRequired
 };
 
 export default Main;

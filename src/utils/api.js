@@ -4,7 +4,7 @@ const checkResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(res.json());
 }
 
-export const getIngredients = () => {
+export const getIngredientsRequest = () => {
   return fetch(`${INGREDIENTS_URL}/ingredients`, {
     method: 'GET',
     headers: {
@@ -14,7 +14,7 @@ export const getIngredients = () => {
   .then(checkResponse);
 }
 
-export const postCreateOrder = (ingredients) => {
+export const postCreateOrderRequest = (ingredients) => {
   return fetch(`${INGREDIENTS_URL}/orders`, {
     method: 'POST',
     headers: {

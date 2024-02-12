@@ -1,52 +1,63 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from "./burger-constructor.module.css";
 import {
-  Button, ConstructorElement, CurrencyIcon, DragIcon
+  Button, ConstructorElement, CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { BurgerContext } from '../../../services/burger-context';
-import { postCreateOrder } from '../../../utils/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { postOrder } from '../../../services/actions/order-actions';
+import { BUN } from '../../../utils/data';
+import { useDrop } from 'react-dnd';
+import { CONSTRUCTOR_ADD } from '../../../services/actions/constructor-actions';
+import DragableIngredient from '../dragabe-ingredient/dragable-ingredient';
 
 
 function BurgerConstructor({
   setPortalType,
-  openModal,
-  setOrderNumber
+  openModal
 }) {
 
-  const allIngredients = useContext(BurgerContext);
-  const currBun = allIngredients.find(
-    ingredient => ingredient.type === 'bun'
-  );
+  const dispatch = useDispatch();
 
-  const currFillings = allIngredients.filter(
-    (ingredient, index) => {
-      if (
-        ingredient.type !== 'bun' &&
-        index < Math.floor(Math.random() * allIngredients.length)
-      ) {
-        return ingredient;
-      }
+  const allIngredients = useSelector(store => store.currBurger.content);
+
+  const [{ isHover }, drop] = useDrop({
+    accept: "container",
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(ingredient) {
+      dispatch({
+        type: CONSTRUCTOR_ADD,
+        ingredient
+      });
     }
-  );
+  });
 
+  const borderColor = isHover ? 'lightgreen' : 'transparent';
 
-  const sum = currFillings.reduce((acc, ingredient) => {
+  const currBun = allIngredients.length ? allIngredients.find(
+    ingredient => ingredient.type === BUN
+  ) : {};
+
+  const sum = allIngredients.length ? allIngredients.reduce((acc, ingredient) => {
     return acc + ingredient.price;
-  }, currBun.price*2);
+  }, 0) : 0;
 
-  const handleClick = (e) => {
-    postCreateOrder([currBun._id,  ...currFillings.map(item => item._id), currBun._id])
-      .then(data => setOrderNumber(data.order.number))
-      .catch(console.error);
+  const handleClick = () => {
+    if (!allIngredients.length || allIngredients[0].type !== BUN) {
+      return null;
+    }
+    dispatch(postOrder([...allIngredients.map(item => item._id)]));
     setPortalType('OrderDetails');
     openModal();
   }
 
+
   return (
-    <div className={`${styles.container} pt-25`}>
-      {Object.entries(currBun).length &&
-        <div className={`${styles.drag_container} ml-4 mr-4`}>
+    <div className={`${styles.container} pt-25`} style={{ borderColor }} ref={drop}>
+      <div className={`${styles.drag_container} ml-4 mr-4`}>
+        {Object.entries(currBun).length !== 0 &&
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -54,28 +65,25 @@ function BurgerConstructor({
             price={currBun.price}
             thumbnail={currBun.image}
           />
-        </div>
-      }
+        }
+      </div>
 
       <ul className={`${styles.list}`}>
-        {currFillings.map((ingredient, index) => {
-            return (
-              <li key={ingredient._id}>
-                <div className={`${styles.drag_container} ml-4 mr-2`}>
-                  <ConstructorElement
-                    text={`${ingredient.name}`}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
-                  />
-                  <DragIcon type="primary" />
-                </div>
-              </li>
-            );
-        })}
+        {
+          allIngredients.map((ingredient, index) => {
+            if (ingredient.type !== BUN) {
+              return (
+                <li key={index} >
+                  <DragableIngredient ingredient={ingredient} index={index} />
+                </li>
+              );
+            }
+            return null;
+          })}
       </ul>
 
-      {Object.entries(currBun).length &&
-        <div className={`${styles.drag_container} ml-4 mr-4`}>
+      <div className={`${styles.drag_container} ml-4 mr-4`}>
+        {Object.entries(currBun).length !== 0 &&
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -83,16 +91,19 @@ function BurgerConstructor({
             price={currBun.price}
             thumbnail={currBun.image}
           />
-        </div>
-      }
+        }
+      </div>
 
       <div className={`${styles.submit_container} mt-10 mr-4`}>
-        <div className={`${styles.sum_container} `}>
-          <p className="text text_type_digits-medium">
-            {sum}
-          </p>
-          <CurrencyIcon type="primary" />
-        </div>
+        {sum !== 0 &&
+          <div className={`${styles.sum_container} `}>
+            <p className="text text_type_digits-medium">
+              {sum}
+            </p>
+            <CurrencyIcon type="primary" />
+          </div>
+        }
+
         <Button
           htmlType="button"
           type="primary"
@@ -108,8 +119,7 @@ function BurgerConstructor({
 
 BurgerConstructor.propTypes = {
   setPortalType: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  setOrderNumber: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;
