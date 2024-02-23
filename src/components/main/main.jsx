@@ -8,7 +8,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function Main() {
 
-  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const getIngredientsFromState = store => store.ingredients.ingredients;
+  const ingredients = useSelector(getIngredientsFromState);
 
   return (
     <main className={`${styles.main}`}>

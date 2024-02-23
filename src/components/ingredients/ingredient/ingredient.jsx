@@ -31,7 +31,8 @@ function Ingredient({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const burgerContent = useSelector(store => store.currBurger.content);
+  const getBurgerContent = store => store.currBurger.content;
+  const burgerContent = useSelector(getBurgerContent);
 
   const count = useMemo(() =>
     burgerContent.filter(item => item._id === data._id).length

@@ -7,7 +7,9 @@ const LoggedClose = ({element}) => {
 
   const location = useLocation();
   const { from } = location.state || {from: { pathname: "/" }};
-  const loggedIn = useSelector(state => state.user.loggedIn);
+
+  const getLoggedIn = state => state.user.loggedIn;
+  const loggedIn = useSelector(getLoggedIn);
 
   return loggedIn ? <Navigate to={from} /> : element;
 

@@ -20,8 +20,11 @@ function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
-  const allIngredients = useSelector(store => store.currBurger.content);
-  const loggedIn = useSelector(store => store.user.loggedIn);
+  const getAllIngredients = store => store.currBurger.content;
+  const allIngredients = useSelector(getAllIngredients);
+
+  const getLoggedIn = store => store.user.loggedIn;
+  const loggedIn = useSelector(getLoggedIn);
 
   const navigate = useNavigate();
   const location = useLocation();

@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 
 
 const ApiResult = () => {
-  const text = useSelector(state => state.portal.text);
+
+  const getText = state => state.portal.text;
+  const text = useSelector(getText);
 
   return (
     <>

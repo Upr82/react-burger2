@@ -19,7 +19,9 @@ import { FAILED } from "../utils/data";
 function Login() {
 
   const location = useLocation();
-  const { email, password } = useSelector(store => store.login);
+
+  const getLoginForm = store => store.login;
+  const { email, password } = useSelector(getLoginForm);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { from } = location.state || {};

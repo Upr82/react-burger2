@@ -21,85 +21,130 @@ import EditProfile from '../edit-profile/edit-profile';
 import Order from '../../pages/order';
 import IngredientPage from '../../pages/ingredient-page';
 import { RESET_PORTAL } from '../../services/actions/portal';
+import { getCookie } from '../../utils/cookie';
+import { checkToken, getUser } from '../../utils/api';
+import { POST_LOGIN_SUCCESS } from '../../services/actions/user';
+
 
 
 function App() {
 
   const dispatch = useDispatch();
-  const portalType = useSelector(state => state.portal.portalType);
-  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const getPortalType = state => state.portal.portalType;
+  const portalType = useSelector(getPortalType);
+
+  const getFromStoreIngredients = store => store.ingredients.ingredients;
+  const ingredients = useSelector(getFromStoreIngredients);
 
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
 
+  let accessToken = getCookie('accessToken') || '';
+  let refreshToken = getCookie('refreshToken') || '';
+
   const handleCloseModalWithBG = () => {
-    dispatch({type: RESET_PORTAL});
+    dispatch({ type: RESET_PORTAL });
     navigate(-1);
   }
 
   const handleCloseModal = () => {
-    dispatch({type: RESET_PORTAL});
+    dispatch({ type: RESET_PORTAL });
   }
 
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (accessToken && refreshToken) {
+      checkToken(accessToken, refreshToken);
+      getUser(getCookie('accessToken'))
+        .then(data => {
+          dispatch({
+            type: POST_LOGIN_SUCCESS,
+            name: data.user.name,
+            email: data.user.email
+          });
+        })
+        .catch(Error);
+    }
+  }, []);
+
+  const RouteMain = <Route path='/' element={
+    <Main />
+  } />
+
+  const RouteLogin = <Route path='/login' element={
+    <LoggedClose element={
+      <Login />
+    } />
+  } />
+
+  const RouteRegister = <Route path='/register' element={
+    <LoggedClose element={
+      <Register />
+    } />
+  } />
+
+  const RouteForgotPassword = <Route path='/forgot-password' element={
+    <LoggedClose element={
+      <ForgotPassword />
+    } />
+  } />
+
+  const RouteResetPassword = <Route path='/reset-password' element={
+    <LoggedClose element={
+      <ResetPassword />
+    } />
+  } />
+
+  const RouteIngredientsId = <Route path='/ingredients/:id' element={
+    <IngredientPage />
+  } />
+
+  const RouteEditProfile = <Route path='/profile' element={<EditProfile />} />
+  const RouteOrdersList = <Route path='/profile/orders' element={<OrdersList />} />
+
+  const RouteOrdersNumber = <Route path='/profile/orders/:number'
+    element={<ProtectedRouteElement element={<Order />} />} />
+
+  const RouteNotFound = <Route path='*' element={<NotFound />} />
+
+  const RouteModalIngredient = <Route
+    path='/ingredients/:id'
+    element={
+      <Modal onClose={handleCloseModalWithBG}>
+        <IngredientDetails />
+      </Modal>
+    }
+  />
+
   return (
     <div className="page">
       <AppHeader />
-      <Routes>
-        <Route path='/' element={
-          <Main />
-        } />
-        <Route path='/login' element={
-          <LoggedClose element={
-            <Login />
-          } />
-        } />
-        <Route path='/register' element={
-          <LoggedClose element={
-            <Register />
-          } />
-        } />
-        <Route path='/forgot-password' element={
-          <LoggedClose element={
-            <ForgotPassword />
-          } />
-        } />
-        <Route path='/reset-password' element={
-          <LoggedClose element={
-            <ResetPassword />
-          } />
-        } />
+      <Routes location={background || location}>
+        {RouteMain}
+        {RouteLogin}
+        {RouteRegister}
+        {RouteForgotPassword}
+        {RouteResetPassword}
 
-        {ingredients?.length &&
-          <Route path='/ingredients/:id' element={
-            <IngredientPage />
-          } />
-        }
+        {ingredients?.length && RouteIngredientsId}
 
         <Route path='/profile' element={<ProtectedRouteElement element={<Profile />} />}>
-          <Route path='/profile' element={<EditProfile />} />
-          <Route path='/profile/orders' element={<OrdersList />} />
+          {RouteEditProfile}
+          {RouteOrdersList}
         </Route>
 
-        <Route path='/profile/orders/:number' element={<ProtectedRouteElement element={<Order />} />} />
-        <Route path='*' element={<NotFound />} />
+        {RouteOrdersNumber}
+        {RouteNotFound}
       </Routes>
 
 
       {background && (
         <Routes>
-          <Route
-            path='/ingredients/:id'
-            element={
-              <Modal onClose={handleCloseModalWithBG}>
-                <IngredientDetails />
-              </Modal>
-            }
-          />
+          {RouteModalIngredient}
         </Routes>
       )}
 

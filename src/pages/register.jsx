@@ -12,10 +12,12 @@ import { postRegister } from "../utils/api";
 import { setCookie } from "../utils/cookie";
 import { FAILED } from "../utils/data";
 import { SET_PORTAL_API } from "../services/actions/portal";
+import { POST_LOGIN_SUCCESS } from "../services/actions/user";
 
 function Register() {
 
-  const { name, email, password } = useSelector(store => store.register);
+  const getRegisterForm = store => store.register;
+  const { name, email, password } = useSelector(getRegisterForm);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +28,12 @@ function Register() {
         if (data.success && data.accessToken && data.refreshToken) {
           setCookie('accessToken', data.accessToken);
           setCookie('refreshToken', data.refreshToken);
-          navigate('/login');
+          dispatch({
+            type: POST_LOGIN_SUCCESS,
+            name: data.user.name,
+            email: data.user.email
+          })
+          navigate('/', {replace: true});
         }
       })
       .catch(error => {

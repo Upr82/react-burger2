@@ -22,7 +22,7 @@ function ForgotPassword() {
     postPasswordReset(email)
       .then(data => {
         if (data?.success) {
-          navigate('/reset-password', { replace: true, state: {from: location.pathname} });
+          navigate('/reset-password', { state: {from: location.pathname} });
         }
       })
       .catch(error => {

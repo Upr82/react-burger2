@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './auth.module.css';
 import {
   PasswordInput, Input, Button
@@ -17,6 +17,12 @@ function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.from !== '/forgot-password') {
+      navigate('/', { replace: true })
+    }
+  }, []);
 
   const onFormSubmit = (e) => {
     e.preventDefault();

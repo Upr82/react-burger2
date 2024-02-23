@@ -18,8 +18,11 @@ import { SET_PORTAL_API } from "../../services/actions/portal";
 
 const EditProfile = () => {
 
-  const { name, email, password } = useSelector(state => state.profile);
-  const { name: userName, email: userEmail } = useSelector(state => state.user);
+  const getProfileForm = state => state.profile;
+  const { name, email, password } = useSelector(getProfileForm);
+
+  const getUserFromState = state => state.user;
+  const { name: userName, email: userEmail } = useSelector(getUserFromState);
   const dispatch = useDispatch();
 
 
