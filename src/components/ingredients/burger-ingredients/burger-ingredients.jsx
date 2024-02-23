@@ -6,11 +6,7 @@ import PropTypes from 'prop-types';
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
 
-function BurgerIngredients({
-  data,
-  openModal,
-  setPortalType,
-}) {
+function BurgerIngredients({data}) {
   const [nearTitle, setNearTitle] = useState(BUN);
 
   const containerElement = useRef();
@@ -54,8 +50,6 @@ function BurgerIngredients({
       >
         <IngredientsContainer
           data={data}
-          openModal={openModal}
-          setPortalType={setPortalType}
           ref={titleRefs}
         />
       </div>
@@ -64,9 +58,7 @@ function BurgerIngredients({
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  openModal: PropTypes.func.isRequired,
-  setPortalType: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 };
 
 export default BurgerIngredients;

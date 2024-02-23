@@ -6,12 +6,7 @@ import { ingredientPropTypes } from "../../../utils/prop-shapes";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
 
 
-const IngredientsContainer = React.forwardRef(({
-  data,
-  openModal,
-  setPortalType},
-  ref
-) => {
+const IngredientsContainer = React.forwardRef(({data}, ref) => {
 
   const { bunRef, sauceRef, mainRef } = ref;
 
@@ -28,8 +23,6 @@ const IngredientsContainer = React.forwardRef(({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    openModal={openModal}
-                    setPortalType={setPortalType}
                   />
                 </li>
               );
@@ -49,8 +42,6 @@ const IngredientsContainer = React.forwardRef(({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    openModal={openModal}
-                    setPortalType={setPortalType}
                   />
                 </li>
               );
@@ -70,8 +61,6 @@ const IngredientsContainer = React.forwardRef(({
                 <li key={ingredient._id}>
                   <Ingredient
                     data={ingredient}
-                    openModal={openModal}
-                    setPortalType={setPortalType}
                   />
                 </li>
               );
@@ -84,14 +73,7 @@ const IngredientsContainer = React.forwardRef(({
 })
 
 IngredientsContainer.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-  openModal: PropTypes.func.isRequired,
-  setPortalType: PropTypes.func.isRequired,
-  // ref: PropTypes.shape({
-  //   bunRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })],
-  //   sauceRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })],
-  //   mainRef: [PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]
-  // }).isRequired
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 
 export default IngredientsContainer;

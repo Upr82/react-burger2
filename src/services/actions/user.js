@@ -1,0 +1,4 @@
+export const POST_LOGIN = 'POST_LOGIN';
+export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS';
+export const POST_LOGIN_FAILED = 'POST_LOGIN_FAILED';
+export const POST_LOGOUT = 'POST_LOGOUT';

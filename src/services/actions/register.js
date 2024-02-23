@@ -1,0 +1,3 @@
+export const INPUT_REG_NAME = 'INPUT_REG_NAME';
+export const INPUT_REG_EMAIL = 'INPUT_REG_EMAIL';
+export const INPUT_REG_PASSWORD = 'INPUT_REG_PASSWORD';

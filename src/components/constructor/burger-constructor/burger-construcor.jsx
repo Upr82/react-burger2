@@ -3,23 +3,31 @@ import styles from "./burger-constructor.module.css";
 import {
   Button, ConstructorElement, CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router';
 import { postOrder } from '../../../services/actions/order-actions';
 import { BUN } from '../../../utils/data';
 import { useDrop } from 'react-dnd';
 import { CONSTRUCTOR_ADD } from '../../../services/actions/constructor-actions';
 import DragableIngredient from '../dragabe-ingredient/dragable-ingredient';
+import { SET_PORTAL_ORDER } from '../../../services/actions/portal';
+import { getCookie } from '../../../utils/cookie';
+import { checkToken } from '../../../utils/api';
+import { POST_LOGOUT } from '../../../services/actions/user';
 
 
-function BurgerConstructor({
-  setPortalType,
-  openModal
-}) {
+function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
   const allIngredients = useSelector(store => store.currBurger.content);
+  const loggedIn = useSelector(store => store.user.loggedIn);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  let accessToken = getCookie('accessToken') || '';
+  let refreshToken = getCookie('refreshToken') || '';
 
   const [{ isHover }, drop] = useDrop({
     accept: "container",
@@ -48,9 +56,19 @@ function BurgerConstructor({
     if (!allIngredients.length || allIngredients[0].type !== BUN) {
       return null;
     }
+
+    if (!loggedIn) return navigate('/login', {state: {from: location.pathname}});
+
+    if (accessToken && refreshToken) {
+      checkToken(accessToken, refreshToken);;
+    } else {
+      console.log('Кук нет');
+      dispatch({type: POST_LOGOUT});
+      navigate('/login');
+    }
+
     dispatch(postOrder([...allIngredients.map(item => item._id)]));
-    setPortalType('OrderDetails');
-    openModal();
+    dispatch({type: SET_PORTAL_ORDER});
   }
 
 
@@ -116,10 +134,5 @@ function BurgerConstructor({
     </div>
   );
 }
-
-BurgerConstructor.propTypes = {
-  setPortalType: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
-};
 
 export default BurgerConstructor;
