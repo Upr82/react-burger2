@@ -12,7 +12,6 @@ import { CONSTRUCTOR_ADD } from '../../../services/actions/constructor-actions';
 import DragableIngredient from '../dragabe-ingredient/dragable-ingredient';
 import { SET_PORTAL_ORDER } from '../../../services/actions/portal';
 import { getCookie } from '../../../utils/cookie';
-import { checkToken } from '../../../utils/api';
 import { POST_LOGOUT } from '../../../services/actions/user';
 
 
@@ -62,9 +61,7 @@ function BurgerConstructor() {
 
     if (!loggedIn) return navigate('/login', {state: {from: location.pathname}});
 
-    if (accessToken && refreshToken) {
-      checkToken(accessToken, refreshToken);;
-    } else {
+    if (!accessToken || !refreshToken) {
       console.log('Кук нет');
       dispatch({type: POST_LOGOUT});
       navigate('/login');

@@ -11,7 +11,7 @@ import { POST_LOGIN_SUCCESS, POST_LOGOUT } from "../../services/actions/user";
 import { useNavigate } from "react-router-dom";
 import { patchUser } from "../../utils/api";
 import { getCookie } from "../../utils/cookie";
-import { getUser, checkToken } from "../../utils/api";
+import { getUser } from "../../utils/api";
 import { setCurrUserInProfile } from "../../services/actions/profile";
 import { SUCCESS, FAILED } from "../../utils/data";
 import { SET_PORTAL_API } from "../../services/actions/portal";
@@ -33,8 +33,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
-      checkToken(accessToken, refreshToken);
-      getUser(getCookie('accessToken'))
+      getUser(getCookie('accessToken'), getCookie('refreshToken'))
       .then(data => {
         dispatch({
           type: POST_LOGIN_SUCCESS,
@@ -55,6 +54,7 @@ const EditProfile = () => {
     e.preventDefault();
     patchUser(
       getCookie('accessToken'),
+      getCookie('refreshToken'),
       name, email, password
     )
     .then(data => {

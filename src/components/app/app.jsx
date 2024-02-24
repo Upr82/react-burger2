@@ -22,7 +22,7 @@ import Order from '../../pages/order';
 import IngredientPage from '../../pages/ingredient-page';
 import { RESET_PORTAL } from '../../services/actions/portal';
 import { getCookie } from '../../utils/cookie';
-import { checkToken, getUser } from '../../utils/api';
+import { getUser } from '../../utils/api';
 import { POST_LOGIN_SUCCESS } from '../../services/actions/user';
 
 
@@ -58,8 +58,7 @@ function App() {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
-      checkToken(accessToken, refreshToken);
-      getUser(getCookie('accessToken'))
+      getUser(getCookie('accessToken'), getCookie('refreshToken'))
         .then(data => {
           dispatch({
             type: POST_LOGIN_SUCCESS,
