@@ -6,21 +6,18 @@ export const POST_ORDER_FAILED = 'POST_ORDER_FAILED';
 
 export function postOrder(ingredients) {
   return function(dispatch) {
-    dispatch({
-      type: POST_ORDER_REQUEST
-    });
     postCreateOrderRequest(ingredients)
-      .then(data =>
-        dispatch({
-          type: POST_ORDER_SUCCESS,
-          order: {...data}
-        })
-      )
-      .catch(error => {
-        console.log(error);
-        dispatch({
-          type: POST_ORDER_FAILED
-        });
+    .then(data =>
+      dispatch({
+        type: POST_ORDER_SUCCESS,
+        order: {...data}
+      })
+    )
+    .catch(error => {
+      console.log(error);
+      dispatch({
+        type: POST_ORDER_FAILED
       });
+    });
   }
 };

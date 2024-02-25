@@ -2,17 +2,14 @@ import React from "react";
 import styles from "./main.module.css";
 import BurgerConstructor from "../constructor/burger-constructor/burger-construcor";
 import BurgerIngredients from "../ingredients/burger-ingredients/burger-ingredients";
-import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-function Main({
-  openModal,
-  setPortalType,
-}) {
+function Main() {
 
-  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const getIngredientsFromState = store => store.ingredients.ingredients;
+  const ingredients = useSelector(getIngredientsFromState);
 
   return (
     <main className={`${styles.main}`}>
@@ -21,23 +18,13 @@ function Main({
           <>
             <BurgerIngredients
               data={ingredients}
-              openModal={openModal}
-              setPortalType={setPortalType}
             />
-            <BurgerConstructor
-              openModal={openModal}
-              setPortalType={setPortalType}
-            />
+            <BurgerConstructor />
           </>
         }
       </DndProvider>
     </main>
   );
 }
-
-Main.propTypes = {
-  openModal: PropTypes.func.isRequired,
-  setPortalType: PropTypes.func.isRequired,
-};
 
 export default Main;

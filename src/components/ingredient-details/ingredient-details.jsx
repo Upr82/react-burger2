@@ -1,13 +1,16 @@
 import React from "react";
 import styles from './ingredient-details.module.css';
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 const IngredientDetails = () => {
 
-  const {
-    name, image_large, calories,
-    proteins, fat, carbohydrates
-  } = useSelector(store => store.currIngredient.description);
+  const {id} = useParams();
+
+  const getAllINgredientsFronState = store => store.ingredients.ingredients;
+  const allIngredients = useSelector(getAllINgredientsFronState);
+
+  let ingredient = allIngredients.find(item => item._id === id) || {};
 
   return (
     <>
@@ -15,10 +18,10 @@ const IngredientDetails = () => {
         Детали ингредиента
       </p>
       <img className={`${styles.img} `}
-        src={image_large} alt={name}
+        src={ingredient.image_large} alt={ingredient.name}
       />
       <p className={`${styles.name} text text_type_main-medium mt-4`}>
-        {name}
+        {ingredient.name}
       </p>
       <div className={`${styles.structure} mt-8`}>
         <div className={`${styles.fats}`}>
@@ -26,7 +29,7 @@ const IngredientDetails = () => {
             Калории,ккал
           </p>
           <p className={`${styles.fats_value} text_type_digits-default text_color_inactive`}>
-            {calories}
+            {ingredient.calories}
           </p>
         </div>
 
@@ -35,7 +38,7 @@ const IngredientDetails = () => {
             Белки, г
           </p>
           <p className={`${styles.fats_value} text_type_digits-default text_color_inactive`}>
-            {proteins}
+            {ingredient.proteins}
           </p>
         </div>
         <div className={`${styles.fats}`}>
@@ -43,7 +46,7 @@ const IngredientDetails = () => {
             Жиры, г
           </p>
           <p className={`${styles.fats_value} text_type_digits-default text_color_inactive`}>
-            {fat}
+            {ingredient.fat}
           </p>
         </div>
         <div className={`${styles.fats}`}>
@@ -51,7 +54,7 @@ const IngredientDetails = () => {
             Углеводы, г
           </p>
           <p className={`${styles.fats_value} text_type_digits-default text_color_inactive`}>
-            {carbohydrates}
+            {ingredient.carbohydrates}
           </p>
         </div>
 

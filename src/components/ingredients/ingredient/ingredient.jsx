@@ -5,15 +5,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../price/price";
 import { ingredientPropTypes } from "../../../utils/prop-shapes";
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { CURR_INGREDIENT_ADD } from "../../../services/actions/curr-ingredient-actions";
 import { useDrag } from "react-dnd";
+import { SET_PORTAL_INGREDIENT } from "../../../services/actions/portal";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Ingredient({
-  data,
-  openModal,
-  setPortalType,
+  data
 }) {
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -29,8 +28,11 @@ function Ingredient({
 
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const burgerContent = useSelector(store => store.currBurger.content);
+  const getBurgerContent = store => store.currBurger.content;
+  const burgerContent = useSelector(getBurgerContent);
 
   const count = useMemo(() =>
     burgerContent.filter(item => item._id === data._id).length
@@ -41,8 +43,8 @@ function Ingredient({
       type: CURR_INGREDIENT_ADD,
       description: data
     });
-    setPortalType('IngredientDetails')
-    openModal();
+    dispatch({type: SET_PORTAL_INGREDIENT, portalVisible: true});
+    navigate(`ingredients/${data._id}`, {state: {background: location}});
   }
 
   return (
@@ -60,9 +62,7 @@ function Ingredient({
 }
 
 Ingredient.propTypes = {
-  data: ingredientPropTypes.isRequired,
-  openModal: PropTypes.func.isRequired,
-  setPortalType: PropTypes.func.isRequired,
+  data: ingredientPropTypes.isRequired
 }
 
 export default Ingredient;

@@ -1,0 +1,101 @@
+[33mcommit 940b4b636754558b90c96871ef4225a9a980d8fc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msprint-3/step-1[m[33m, [m[1;31mmain/sprint-3/step-1[m[33m)[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Fri Feb 23 17:31:15 2024 +0400
+
+    To review 2 sprint-3/step-1
+
+[33mcommit c285e4c7741d28450d79af226f1c3584ead23f85[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Fri Feb 23 14:15:30 2024 +0400
+
+    To review 1 sprint-3/step-1
+
+[33mcommit 5487e4729192868f8df382f84647c02dcc394486[m[33m ([m[1;31mmain/master[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 456b44a 9b57618
+Author: Anton <90371117+Upr82@users.noreply.github.com>
+Date:   Mon Feb 12 12:19:15 2024 +0400
+
+    Merge pull request #4 from Upr82/sprint2/step2
+    
+    Sprint2/step2 to review #1
+
+[33mcommit 9b5761809760df57445bb91bf36f330b2a2c1511[m[33m ([m[1;31mmain/sprint2/step2[m[33m, [m[1;32msprint2/step2[m[33m)[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sun Feb 11 17:36:35 2024 +0400
+
+    To review 2.1
+
+[33mcommit d511177265478498aab8013976abfcd2de433b25[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sun Feb 11 17:08:20 2024 +0400
+
+    To review #2
+
+[33mcommit 087938bf2f25ff78e4979380ac06a5b3459636f7[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sun Feb 11 12:01:56 2024 +0400
+
+    Sprint2/step2 to review #1
+
+[33mcommit 456b44adfbf23622f3f371ca7172b902b7c2d82e[m
+Merge: ea46ff2 2a70be7
+Author: Anton <90371117+Upr82@users.noreply.github.com>
+Date:   Thu Feb 8 21:08:34 2024 +0400
+
+    Merge pull request #3 from Upr82/sprint2/step1
+    
+    To review sprint2/step1 #1
+
+[33mcommit 2a70be7038556aad4a8e98f1785bcd60c6845a8e[m[33m ([m[1;31mmain/sprint2/step1[m[33m, [m[1;32msprint2/step1[m[33m)[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Thu Feb 8 18:05:38 2024 +0400
+
+    To review sprint2/step1 #2
+
+[33mcommit 8e16a92bb192b3941eb71300fd0e0d014c91e0b0[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Thu Feb 8 16:43:35 2024 +0400
+
+    To review sprint2/step1 #1
+
+[33mcommit ea46ff2d156efd02849e700e4a27aac4f72872ba[m
+Merge: c0ae0df 7c17b1d
+Author: Anton <90371117+Upr82@users.noreply.github.com>
+Date:   Wed Jan 31 10:43:13 2024 +0400
+
+    Merge pull request #2 from Upr82/sprint1/step2
+    
+    After review
+
+[33mcommit 7c17b1dd330a48230177634fe3f9ab01f828080c[m[33m ([m[1;31mmain/sprint1/step2[m[33m, [m[1;32msprint1/step2[m[33m)[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Wed Jan 31 10:41:44 2024 +0400
+
+    After review
+
+[33mcommit c0ae0df58315a47615effc931cfd53da85ca4c3a[m
+Merge: 5b5d507 5c1acb2
+Author: Anton <90371117+Upr82@users.noreply.github.com>
+Date:   Sun Jan 28 20:46:48 2024 +0400
+
+    Merge pull request #1 from Upr82/sprint1/step2
+    
+    To step2
+
+[33mcommit 5c1acb25d97fa3e711bb1b03d70a051b1568f9d9[m[33m ([m[1;32msprint1/step1[m[33m)[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sun Jan 28 19:35:30 2024 +0400
+
+    To step2
+
+[33mcommit 5b5d5070203f18e44d01bfc184ac5045b7c87495[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sat Jan 27 14:45:55 2024 +0400
+
+    First commit
+
+[33mcommit bcda6d414d7ec043c49af8e6454c6df1f5b63625[m
+Author: Shpak Anton <shpak.ag@yandex.ru>
+Date:   Sat Jan 27 14:40:01 2024 +0400
+
+    Initialize project using Create React App
