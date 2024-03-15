@@ -1,65 +1,42 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from './auth.module.css';
 import {
   PasswordInput, EmailInput, Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { postLogin } from "../utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  INPUT_LOGIN_EMAIL, INPUT_LOGIN_PASSWORD, LOGIN_FINAL
+  INPUT_LOGIN_EMAIL, INPUT_LOGIN_PASSWORD
 } from "../services/actions/login";
-import {
-  POST_LOGIN, POST_LOGIN_SUCCESS, POST_LOGIN_FAILED
-} from "../services/actions/user";
-import { setCookie } from "../utils/cookie";
-import { SET_PORTAL_API } from "../services/actions/portal";
-import { FAILED } from "../utils/data";
+import { postLoginThunk } from "../services/actions/login";
 
-function Login() {
+
+
+const Login: FC = () => {
 
   const location = useLocation();
 
-  const getLoginForm = store => store.login;
+  const getLoginForm = (store: any) => store.login;
   const { email, password } = useSelector(getLoginForm);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { from } = location.state || {};
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch({type: POST_LOGIN});
-    postLogin(email, password)
-    .then(data => {
-      if (data.success) {
-        setCookie('accessToken', data.accessToken);
-        setCookie('refreshToken', data.refreshToken);
-        dispatch({
-          type: POST_LOGIN_SUCCESS,
-          name: data.user.name,
-          email: data.user.email
-        })
-        dispatch({type: LOGIN_FINAL});
-        navigate(from?.pathname || "/", { replace: true });
-      } else {
-        dispatch({type: POST_LOGIN_FAILED});
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch({type: POST_LOGIN_FAILED});
-      dispatch({type: SET_PORTAL_API, text: FAILED});
-    });
+    // @ts-ignore
+    dispatch(postLoginThunk(navigate, from, email, password));
   }
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: INPUT_LOGIN_EMAIL,
       email: e.target.value
     });
   }
 
-  const changePassword = (e) => {
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: INPUT_LOGIN_PASSWORD,
       password: e.target.value

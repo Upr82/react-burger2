@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from './auth.module.css';
 import { useDispatch } from "react-redux";
 import { POST_LOGOUT } from "../services/actions/user";
@@ -7,7 +7,7 @@ import { postLogout } from "../utils/api";
 import { getCookie, deleteAllCookies } from "../utils/cookie";
 
 
-function Profile() {
+const Profile: FC = () => {
 
   const dispatch = useDispatch();
 

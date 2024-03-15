@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from './auth.module.css';
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 
-const IngredientPage = () => {
 
+const IngredientPage: FC = () => {
 
   return (
     <div className={styles.container}>

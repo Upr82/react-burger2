@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from './auth.module.css';
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+const NotFound: FC = () => {
   return (
     <div className={styles.n_f_container}>
       <h1 className={`${styles.n_f_title} text text_type_main-large`}>

@@ -1,38 +1,29 @@
-import React, {useState} from "react";
+import React, {FC} from "react";
 import styles from './auth.module.css';
 import {
   EmailInput, Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { postPasswordReset } from "../utils/api";
 import { useDispatch } from "react-redux";
-import { SET_PORTAL_API } from "../services/actions/portal";
-import { FAILED } from "../utils/data";
+import { useForm } from "../hooks/useForm";
+import { postForgotPasswordThunk } from "../services/actions/forgot-password";
 
 
-function ForgotPassword() {
+const ForgotPassword: FC = () => {
 
-  const [email, setEmail] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const onFormSubmit = (e) => {
-    e.preventDefault();
-    postPasswordReset(email)
-      .then(data => {
-        if (data?.success) {
-          navigate('/reset-password', { state: {from: location.pathname} });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch({type: SET_PORTAL_API, text: FAILED});
-      })
-  }
+  const { values, handleChange } = useForm({
+    email: '',
+  })
 
-  const changeEmail = (e) => {
-    setEmail(e.target.value);
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // @ts-ignore
+    dispatch(postForgotPasswordThunk(location, navigate, values.email));
+
   }
 
   return (
@@ -43,8 +34,8 @@ function ForgotPassword() {
       <form className={`${styles.form}`} onSubmit={onFormSubmit}>
         <EmailInput
           name="email"
-          onChange={changeEmail}
-          value={email}
+          onChange={handleChange}
+          value={values.email}
           isIcon={false}
           disabled={false}
           placeholder="Укажите e-mail"

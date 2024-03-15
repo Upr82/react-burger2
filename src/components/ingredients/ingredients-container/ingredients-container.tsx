@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import styles from "./ingredients-container.module.css"
 import Ingredient from "../ingredient/ingredient";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
@@ -10,7 +10,7 @@ type TIngredientsContainer = {
 }
 
 
-const IngredientsContainer = forwardRef(({data, refs}: TIngredientsContainer) => {
+const IngredientsContainer = ({data, refs}: TIngredientsContainer) => {
 
   const { bunRef, sauceRef, mainRef } = refs;
 
@@ -74,6 +74,6 @@ const IngredientsContainer = forwardRef(({data, refs}: TIngredientsContainer) =>
       </ul>
     </>
   );
-})
+}
 
 export default IngredientsContainer;

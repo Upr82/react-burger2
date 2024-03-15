@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import styles from './auth.module.css';
 import {
   PasswordInput, Input, Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { postPasswordToken } from "../utils/api";
 import { useDispatch } from "react-redux";
-import { SET_PORTAL_API } from "../services/actions/portal";
-import { FAILED } from "../utils/data";
+import { postResetPasswordThunk } from "../services/actions/reset-password";
 
 
-function ResetPassword() {
+const ResetPassword: FC = () => {
 
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
@@ -22,27 +20,20 @@ function ResetPassword() {
     if (location.state?.from !== '/forgot-password') {
       navigate('/', { replace: true })
     }
+  // eslint-disable-next-line
   }, []);
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    postPasswordToken(password, token)
-      .then(data => {
-        if (data?.success) {
-          navigate('/login', {replace: true, state: {from: location.pathname}});
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch({type: SET_PORTAL_API, text: FAILED});
-      })
+    // @ts-ignore
+    dispatch(postResetPasswordThunk(password, token, navigate, location));
   }
 
-  const changePassword = (e) => {
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   }
 
-  const changeCode = (e) => {
+  const changeCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setToken(e.target.value);
   }
 

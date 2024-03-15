@@ -8,55 +8,37 @@ import {
   INPUT_REG_NAME, INPUT_REG_EMAIL, INPUT_REG_PASSWORD
 } from "../services/actions/register";
 import { useDispatch, useSelector } from "react-redux";
-import { postRegister } from "../utils/api";
-import { setCookie } from "../utils/cookie";
-import { FAILED } from "../utils/data";
-import { SET_PORTAL_API } from "../services/actions/portal";
-import { POST_LOGIN_SUCCESS } from "../services/actions/user";
+import { postRegisterThunk } from "../services/actions/register";
 
 function Register() {
 
-  const getRegisterForm = store => store.register;
+  const getRegisterForm = (store: any) => store.register;
   const { name, email, password } = useSelector(getRegisterForm);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    postRegister(name, email, password)
-      .then(data => {
-        if (data.success && data.accessToken && data.refreshToken) {
-          setCookie('accessToken', data.accessToken);
-          setCookie('refreshToken', data.refreshToken);
-          dispatch({
-            type: POST_LOGIN_SUCCESS,
-            name: data.user.name,
-            email: data.user.email
-          })
-          navigate('/', {replace: true});
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch({type: SET_PORTAL_API, text: FAILED});
-      });
+
+    // @ts-ignore
+    dispatch(postRegisterThunk(name, email, password, navigate));
   }
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: INPUT_REG_EMAIL,
       email: e.target.value
     });
   }
 
-  const changePassword = (e) => {
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: INPUT_REG_PASSWORD,
       password: e.target.value
     });
   }
 
-  const changeName = (e) => {
+  const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: INPUT_REG_NAME,
       name: e.target.value
