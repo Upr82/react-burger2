@@ -13,17 +13,18 @@ import DragableIngredient from '../dragabe-ingredient/dragable-ingredient';
 import { SET_PORTAL_ORDER } from '../../../services/actions/portal';
 import { getCookie } from '../../../utils/cookie';
 import { POST_LOGOUT } from '../../../services/actions/user';
+import { IIngredient } from '../../../services/types/types';
 
 
 function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
-  const getAllIngredients = store => store.currBurger.content;
-  const allIngredients = useSelector(getAllIngredients);
+  const getAllIngredients = (store: any) => store.currBurger.content;
+  const allIngredients: Array<IIngredient> = useSelector(getAllIngredients);
 
-  const getLoggedIn = store => store.user.loggedIn;
-  const loggedIn = useSelector(getLoggedIn);
+  const getLoggedIn = (store: any) => store.user.loggedIn;
+  const loggedIn: boolean = useSelector(getLoggedIn);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,9 +47,9 @@ function BurgerConstructor() {
 
   const borderColor = isHover ? 'lightgreen' : 'transparent';
 
-  const currBun = allIngredients.length ? allIngredients.find(
-    ingredient => ingredient.type === BUN
-  ) : {};
+  const currBun = allIngredients.length ?
+    allIngredients.find(ingredient => ingredient.type === BUN) : undefined;
+
 
   const sum = allIngredients.length ? allIngredients.reduce((acc, ingredient) => {
     return acc + ingredient.price;
@@ -66,7 +67,7 @@ function BurgerConstructor() {
       dispatch({type: POST_LOGOUT});
       navigate('/login');
     }
-
+    // @ts-ignore
     dispatch(postOrder([...allIngredients.map(item => item._id)]));
     dispatch({type: SET_PORTAL_ORDER});
   }
@@ -75,7 +76,7 @@ function BurgerConstructor() {
   return (
     <div className={`${styles.container} pt-25`} style={{ borderColor }} ref={drop}>
       <div className={`${styles.drag_container} ml-4 mr-4`}>
-        {Object.entries(currBun).length !== 0 &&
+        {currBun &&
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -101,7 +102,7 @@ function BurgerConstructor() {
       </ul>
 
       <div className={`${styles.drag_container} ml-4 mr-4`}>
-        {Object.entries(currBun).length !== 0 &&
+        {currBun &&
           <ConstructorElement
             type="bottom"
             isLocked={true}

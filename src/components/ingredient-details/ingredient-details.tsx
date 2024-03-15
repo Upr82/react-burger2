@@ -2,15 +2,16 @@ import React from "react";
 import styles from './ingredient-details.module.css';
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { IIngredient } from "../../services/types/types";
 
 const IngredientDetails = () => {
 
-  const {id} = useParams();
+  const {id} = useParams<{ id: string}>();
 
-  const getAllINgredientsFronState = store => store.ingredients.ingredients;
+  const getAllINgredientsFronState = (store: any) => store.ingredients.ingredients;
   const allIngredients = useSelector(getAllINgredientsFronState);
 
-  let ingredient = allIngredients.find(item => item._id === id) || {};
+  let ingredient: IIngredient = allIngredients.find((item: IIngredient) => item._id === id) || {};
 
   return (
     <>

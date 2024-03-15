@@ -1,4 +1,6 @@
-export function setCookie(name, value, props) {
+import { ISetCookie } from "../services/types/types";
+
+export const setCookie: ISetCookie = (name, value, props) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -21,12 +23,12 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     // eslint-disable-next-line
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : '';
 }
 
 export function deleteAllCookies() {

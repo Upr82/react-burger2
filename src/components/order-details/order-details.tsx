@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function OrderDetails() {
 
-  const getOrder = state => state.order.order;
+  const getOrder = (state: any) => state.order.order;
   const order = useSelector(getOrder);
 
   return (

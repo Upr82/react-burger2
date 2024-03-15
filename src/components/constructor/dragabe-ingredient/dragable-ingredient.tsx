@@ -5,9 +5,10 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { delIngredient } from '../../../services/actions/constructor-actions';
 import { useDispatch } from 'react-redux';
 import { movingFillings } from '../../../services/actions/constructor-actions';
+import { IDragableIngredient } from '../../../services/types/types';
 
 
-function DragableIngredient({ ingredient, index }) {
+function DragableIngredient({ ingredient, index }: IDragableIngredient) {
 
   const dispatch = useDispatch();
 
@@ -28,13 +29,15 @@ function DragableIngredient({ ingredient, index }) {
     }),
     drop() {
       if (sourceIng.index !== index) {
+        // @ts-ignore
         dispatch(movingFillings(sourceIng.index, index));
       }
     }
   });
   const hoverItemBorder = isHoverIng ? 'lightblue' : 'transparent';
 
-  const handleDelIngredient = (ingredient, index) => {
+  const handleDelIngredient = ({ingredient, index}: IDragableIngredient) => {
+    // @ts-ignore
     dispatch(delIngredient(ingredient, index));
   }
 
@@ -45,7 +48,7 @@ function DragableIngredient({ ingredient, index }) {
           text={`${ingredient.name}`}
           price={ingredient.price}
           thumbnail={ingredient.image}
-          handleClose={() => handleDelIngredient(ingredient, index)}
+          handleClose={() => handleDelIngredient({ingredient, index})}
         />
         <DragIcon type="primary" />
       </div>

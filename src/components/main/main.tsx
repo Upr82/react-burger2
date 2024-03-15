@@ -5,11 +5,12 @@ import BurgerIngredients from "../ingredients/burger-ingredients/burger-ingredie
 import { useSelector } from "react-redux";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { IIngredient } from "../../services/types/types";
 
 function Main() {
 
-  const getIngredientsFromState = store => store.ingredients.ingredients;
-  const ingredients = useSelector(getIngredientsFromState);
+  const getIngredientsFromState = (store: any) => store.ingredients.ingredients;
+  const ingredients: IIngredient[] = useSelector(getIngredientsFromState);
 
   return (
     <main className={`${styles.main}`}>

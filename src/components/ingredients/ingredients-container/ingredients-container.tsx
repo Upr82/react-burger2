@@ -1,14 +1,18 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./ingredients-container.module.css"
 import Ingredient from "../ingredient/ingredient";
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from "../../../utils/prop-shapes";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
+import { IIngredient, ITitleRefs } from "../../../services/types/types";
+
+type TIngredientsContainer = {
+  data: IIngredient[],
+  refs: ITitleRefs
+}
 
 
-const IngredientsContainer = React.forwardRef(({data}, ref) => {
+const IngredientsContainer = forwardRef(({data, refs}: TIngredientsContainer) => {
 
-  const { bunRef, sauceRef, mainRef } = ref;
+  const { bunRef, sauceRef, mainRef } = refs;
 
   return (
     <>
@@ -71,9 +75,5 @@ const IngredientsContainer = React.forwardRef(({data}, ref) => {
     </>
   );
 })
-
-IngredientsContainer.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired
-}
 
 export default IngredientsContainer;

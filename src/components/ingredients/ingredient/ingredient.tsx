@@ -1,19 +1,21 @@
-import React, { useMemo } from "react";
+import React, { useMemo, FC } from "react";
 import styles from "./ingredient.module.css"
 import {
   Counter
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../price/price";
-import { ingredientPropTypes } from "../../../utils/prop-shapes";
 import { useDispatch, useSelector } from "react-redux";
 import { CURR_INGREDIENT_ADD } from "../../../services/actions/curr-ingredient-actions";
 import { useDrag } from "react-dnd";
 import { SET_PORTAL_INGREDIENT } from "../../../services/actions/portal";
 import { useNavigate, useLocation } from "react-router-dom";
+import { IIngredient } from "../../../services/types/types";
 
-function Ingredient({
-  data
-}) {
+type TIngredient = {
+  data: IIngredient
+}
+
+const Ingredient = ({data}: TIngredient) => {
 
   const [{ isDrag }, dragRef] = useDrag({
     type: 'container',
@@ -31,8 +33,8 @@ function Ingredient({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const getBurgerContent = store => store.currBurger.content;
-  const burgerContent = useSelector(getBurgerContent);
+  const getBurgerContent = (store: any) => store.currBurger.content;
+  const burgerContent: IIngredient[] = useSelector(getBurgerContent);
 
   const count = useMemo(() =>
     burgerContent.filter(item => item._id === data._id).length
@@ -59,10 +61,6 @@ function Ingredient({
       <p className={`${styles.name} text text_type_main-default`}>{data.name}</p>
     </div>
   );
-}
-
-Ingredient.propTypes = {
-  data: ingredientPropTypes.isRequired
 }
 
 export default Ingredient;

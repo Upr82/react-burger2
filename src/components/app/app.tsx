@@ -24,17 +24,19 @@ import { RESET_PORTAL } from '../../services/actions/portal';
 import { getCookie } from '../../utils/cookie';
 import { getUser } from '../../utils/api';
 import { POST_LOGIN_SUCCESS } from '../../services/actions/user';
-
+import { IIngredient } from '../../services/types/types';
 
 
 function App() {
 
   const dispatch = useDispatch();
-  const getPortalType = state => state.portal.portalType;
-  const portalType = useSelector(getPortalType);
+  const getPortalType = (state: any) => state.portal.portalType;
 
-  const getFromStoreIngredients = store => store.ingredients.ingredients;
-  const ingredients = useSelector(getFromStoreIngredients);
+  type TPotalType = 'OrderDetails' | 'ApiResult' | '';
+  const portalType: TPotalType = useSelector(getPortalType);
+
+  const getFromStoreIngredients = (store: any) => store.ingredients.ingredients;
+  const ingredients: IIngredient[] = useSelector(getFromStoreIngredients);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,6 +55,7 @@ function App() {
   }
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getIngredients());
   }, [dispatch]);
 
@@ -68,6 +71,7 @@ function App() {
         })
         .catch(Error);
     }
+    // eslint-disable-next-line
   }, []);
 
   const RouteMain = <Route path='/' element={

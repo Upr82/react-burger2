@@ -18,10 +18,10 @@ import { SET_PORTAL_API } from "../../services/actions/portal";
 
 const EditProfile = () => {
 
-  const getProfileForm = state => state.profile;
+  const getProfileForm = (state: any) => state.profile;
   const { name, email, password } = useSelector(getProfileForm);
 
-  const getUserFromState = state => state.user;
+  const getUserFromState = (state: any) => state.user;
   const { name: userName, email: userEmail } = useSelector(getUserFromState);
   const dispatch = useDispatch();
 
@@ -47,10 +47,11 @@ const EditProfile = () => {
       dispatch({type: POST_LOGOUT});
       navigate('/login');
     }
+    // @ts-ignore
     dispatch(setCurrUserInProfile(userName, userEmail));
   }, []);
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     patchUser(
       getCookie('accessToken'),
@@ -63,6 +64,7 @@ const EditProfile = () => {
         name: data.user.name,
         email: data.user.email
       });
+      // @ts-ignore
       dispatch(setCurrUserInProfile(data.user.name, data.user.email));
       dispatch({type: SET_PORTAL_API, text: SUCCESS});
     })
@@ -73,24 +75,25 @@ const EditProfile = () => {
   }
 
   const handleReset = () => {
+    // @ts-ignore
     dispatch(setCurrUserInProfile(userName, userEmail));
   }
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: EDIT_EMAIL,
       email: e.target.value
     });
   }
 
-  const changePassword = (e) => {
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: EDIT_PASSWORD,
       password: e.target.value
     });
   }
 
-  const changeName = (e) => {
+  const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: EDIT_NAME,
       name: e.target.value
@@ -99,11 +102,11 @@ const EditProfile = () => {
 
   return (
     <>
-      <form className={`${styles.form}`} onSubmit={onFormSubmit}>
+      <form className={`${styles.form}`} onSubmit={e => onFormSubmit(e)}>
         <Input
           placeholder="Имя"
           type="text"
-          onChange={changeName}
+          onChange={e => changeName(e)}
           value={name}
           name="name"
           error={false}

@@ -2,23 +2,39 @@ import React from "react";
 import styles from "./ingredients-menu.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BUN, SAUCE, MAIN } from "../../../utils/data";
-import PropTypes from 'prop-types';
+import { ITitleRefs } from "../../../services/types/types";
+
+type TIngredientsMenu = {
+  nearTitle: string,
+  refs: ITitleRefs
+}
+
+type TAnch = 'bun'| 'sauce'| 'main';
 
 
-const IgredientsMenu = React.forwardRef(({nearTitle}, ref) => {
+const IgredientsMenu = (({nearTitle, refs}: TIngredientsMenu) => {
 
-  const { bunRef, sauceRef, mainRef } = ref;
+  const { bunRef, sauceRef, mainRef } = refs;
 
-  const scroll = (anch) => {
+  const scroll = (anch: TAnch) => {
     switch (anch) {
       case BUN: {
-        return bunRef.current.scrollIntoView({ behavior: "smooth" });
+        if (bunRef.current) {
+          return bunRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
       }
       case SAUCE: {
-        return sauceRef.current.scrollIntoView({ behavior: "smooth" });
+        if (sauceRef.current) {
+          return sauceRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
       }
       case MAIN: {
-        return mainRef.current.scrollIntoView({ behavior: "smooth" });
+        if (mainRef.current) {
+          return mainRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
       }
       default: {
         return;
@@ -42,9 +58,5 @@ const IgredientsMenu = React.forwardRef(({nearTitle}, ref) => {
     </>
   );
 })
-
-IgredientsMenu.propTypes = {
-  nearTitle: PropTypes.string.isRequired,
-}
 
 export default IgredientsMenu;
