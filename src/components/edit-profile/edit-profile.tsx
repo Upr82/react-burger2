@@ -7,14 +7,12 @@ import {
 import {
   EDIT_NAME, EDIT_EMAIL, EDIT_PASSWORD
 } from "../../services/actions/profile";
-import { POST_LOGIN_SUCCESS, POST_LOGOUT } from "../../services/actions/user";
+import { POST_LOGOUT } from "../../services/actions/user";
 import { useNavigate } from "react-router-dom";
-import { patchUser } from "../../utils/api";
 import { getCookie } from "../../utils/cookie";
-import { getUser } from "../../utils/api";
 import { setCurrUserInProfile } from "../../services/actions/profile";
-import { SUCCESS, FAILED } from "../../utils/data";
-import { SET_PORTAL_API } from "../../services/actions/portal";
+import { getUserThunk, patchUserThunk } from "../../services/actions/user";
+
 
 const EditProfile = () => {
 
@@ -33,15 +31,9 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
-      getUser(getCookie('accessToken'), getCookie('refreshToken'))
-      .then(data => {
-        dispatch({
-          type: POST_LOGIN_SUCCESS,
-          name: data.user.name,
-          email: data.user.email
-        });
-      })
-      .catch(Error);
+
+      // @ts-ignore
+      dispatch(getUserThunk(accessToken, refreshToken));
     } else {
       console.log('Кук нет');
       dispatch({type: POST_LOGOUT});
@@ -49,29 +41,17 @@ const EditProfile = () => {
     }
     // @ts-ignore
     dispatch(setCurrUserInProfile(userName, userEmail));
+    // eslint-disable-next-line
   }, []);
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    patchUser(
-      getCookie('accessToken'),
-      getCookie('refreshToken'),
+
+    // @ts-ignore
+    dispatch(patchUserThunk(
+      getCookie('accessToken'), getCookie('refreshToken'),
       name, email, password
-    )
-    .then(data => {
-      dispatch({
-        type: POST_LOGIN_SUCCESS,
-        name: data.user.name,
-        email: data.user.email
-      });
-      // @ts-ignore
-      dispatch(setCurrUserInProfile(data.user.name, data.user.email));
-      dispatch({type: SET_PORTAL_API, text: SUCCESS});
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch({type: SET_PORTAL_API, text: FAILED});
-    });
+    ));
   }
 
   const handleReset = () => {

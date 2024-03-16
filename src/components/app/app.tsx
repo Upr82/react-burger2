@@ -13,7 +13,7 @@ import Register from '../../pages/register';
 import ForgotPassword from '../../pages/forgot-password';
 import ResetPassword from '../../pages/reset-password';
 import ProtectedRouteElement from '../protected-route/protected-route';
-import LoggedClose from '../logged-close/logged-close';
+import RedirectRoute from '../redirect-route/redirect-route';
 import NotFound from '../../pages/not-found';
 import ApiResult from '../api-result/api-result';
 import OrdersList from '../orders-list/orders-list';
@@ -22,9 +22,9 @@ import Order from '../../pages/order';
 import IngredientPage from '../../pages/ingredient-page';
 import { RESET_PORTAL } from '../../services/actions/portal';
 import { getCookie } from '../../utils/cookie';
-import { getUser } from '../../utils/api';
-import { POST_LOGIN_SUCCESS } from '../../services/actions/user';
 import { IIngredient } from '../../services/types/types';
+import { CURR_INGREDIENT_DEL } from '../../services/actions/curr-ingredient-actions';
+import { getUserThunk } from '../../services/actions/user';
 
 
 function App() {
@@ -34,6 +34,9 @@ function App() {
 
   type TPotalType = 'OrderDetails' | 'ApiResult' | '';
   const portalType: TPotalType = useSelector(getPortalType);
+
+  const getCurrIngredient = (state: any) => state.currIngredient.description;
+  const currIngredient: IIngredient = useSelector(getCurrIngredient);
 
   const getFromStoreIngredients = (store: any) => store.ingredients.ingredients;
   const ingredients: IIngredient[] = useSelector(getFromStoreIngredients);
@@ -47,11 +50,19 @@ function App() {
 
   const handleCloseModalWithBG = () => {
     dispatch({ type: RESET_PORTAL });
+
+    if (currIngredient) {
+      dispatch({ type: CURR_INGREDIENT_DEL });
+    }
     navigate(-1);
   }
 
   const handleCloseModal = () => {
     dispatch({ type: RESET_PORTAL });
+
+    if (currIngredient) {
+      dispatch({ type: CURR_INGREDIENT_DEL });
+    }
   }
 
   useEffect(() => {
@@ -61,15 +72,9 @@ function App() {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
-      getUser(getCookie('accessToken'), getCookie('refreshToken'))
-        .then(data => {
-          dispatch({
-            type: POST_LOGIN_SUCCESS,
-            name: data.user.name,
-            email: data.user.email
-          });
-        })
-        .catch(Error);
+
+      // @ts-ignore
+      dispatch(getUserThunk(accessToken, refreshToken));
     }
     // eslint-disable-next-line
   }, []);
@@ -79,25 +84,25 @@ function App() {
   } />
 
   const RouteLogin = <Route path='/login' element={
-    <LoggedClose element={
+    <RedirectRoute element={
       <Login />
     } />
   } />
 
   const RouteRegister = <Route path='/register' element={
-    <LoggedClose element={
+    <RedirectRoute element={
       <Register />
     } />
   } />
 
   const RouteForgotPassword = <Route path='/forgot-password' element={
-    <LoggedClose element={
+    <RedirectRoute element={
       <ForgotPassword />
     } />
   } />
 
   const RouteResetPassword = <Route path='/reset-password' element={
-    <LoggedClose element={
+    <RedirectRoute element={
       <ResetPassword />
     } />
   } />
